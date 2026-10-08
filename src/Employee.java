@@ -1,8 +1,9 @@
-abstract class Employee implements Workable, Reportable {
+public abstract class Employee implements Workable, Reportable {
     private String name;
     private int id;
     private int experienceYears;
     private double baseSalary;
+    private EmploymentContract contract;
 
     public Employee() {
         this.name = "Unknown Employee";
@@ -16,6 +17,11 @@ abstract class Employee implements Workable, Reportable {
         setId(id);
         setExperienceYears(experienceYears);
         setBaseSalary(baseSalary);
+        this.contract = new EmploymentContract("CTR-" + id, baseSalary);
+    }
+
+    public EmploymentContract getContract(){
+        return contract;
     }
 
     public String getName() {
@@ -66,5 +72,6 @@ abstract class Employee implements Workable, Reportable {
                 " | Experience: " + experienceYears + " yrs" +
                 " | Base Salary: $" + baseSalary);
         System.out.println(" -> Role Info: " + getRoleDescription()) ;
+        contract.displayContractDetails();
     }
 }
