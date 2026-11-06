@@ -8,6 +8,7 @@ public abstract class Employee implements Workable, Reportable, Comparable<Emplo
     private int id;
     private int experienceYears;
     private double baseSalary;
+    private String password;
     private EmploymentContract contract;
     private Set<MarketingProject> projects = new HashSet<>();
 
@@ -37,6 +38,17 @@ public abstract class Employee implements Workable, Reportable, Comparable<Emplo
 
     public EmploymentContract getContract() {
         return contract;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        if (password != null && !password.trim().isEmpty()) {
+            this.password = password;
+        } else {
+            this.password = "";
+        }
     }
 
     public String getName() {

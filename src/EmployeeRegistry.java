@@ -20,6 +20,10 @@ public class EmployeeRegistry {
     // Group employees by their job title
     private Map<String, List<Employee>> employeesByRole = new HashMap<>();
 
+
+    public boolean employeeIdExists(int id) {
+        return employeesById.containsKey(id);
+    }
     // Add employee to all collections
     public boolean addEmployee(Employee employee) {
 
