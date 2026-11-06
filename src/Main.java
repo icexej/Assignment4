@@ -292,18 +292,56 @@ public class Main {
                                     }
                                     break;
 
-                                case 2:
+                                case 2: {
                                     System.out.println("\n===== EMPLOYEE LIST =====");
 
-                                    if (employeeService.getAllEmployees().isEmpty()) {
+                                    List<Employee> employees = employeeService.getAllEmployees();
+
+                                    if (employees.isEmpty()) {
                                         System.out.println("No employees found.");
-                                    } else {
-                                        for (Employee emp : employeeService.getAllEmployees()) {
-                                            emp.displayInfo();
-                                            System.out.println("--------------------");
-                                        }
+                                        break;
                                     }
+
+                                    System.out.println("1. Sort by salary");
+                                    System.out.println("2. Sort by experience");
+                                    System.out.println("3. Sort by name");
+                                    System.out.println("4. Sort Social Media Managers by followers");
+                                    System.out.println("5. Show without sorting");
+
+                                    int sortChoice = readPositiveInt(scanner, "Choose sorting option: ");
+
+                                    switch (sortChoice) {
+                                        case 1:
+                                            employees.sort(EmployeeComparators.bySalary);
+                                            break;
+                                        case 2:
+                                            employees.sort(EmployeeComparators.byExperience);
+                                            break;
+                                        case 3:
+                                            employees.sort(null);
+                                            break;
+                                        case 4:
+                                            employees.removeIf(emp -> !(emp instanceof SocialMediaManager));
+                                            employees.sort((a, b) ->
+                                                    EmployeeComparators.byFollowers.compare(
+                                                            (SocialMediaManager) a,
+                                                            (SocialMediaManager) b
+                                                    )
+                                            );
+                                            break;
+                                        case 5:
+                                            break;
+                                        default:
+                                            System.out.println("Invalid choice. Showing without sorting.");
+                                    }
+
+                                    for (Employee emp : employees) {
+                                        emp.displayInfo();
+                                        System.out.println("--------------------");
+                                    }
+
                                     break;
+                                }
 
                                 case 3:
                                     System.out.print("Enter employee name: ");
@@ -360,11 +398,11 @@ public class Main {
                                     scanner.nextLine();
 
                                     Employee employeeToDelete = employeeService.getEmployeeById(deleteId);
-                                    employeeDAO.deleteEmployee(deleteId);
 
                                     if (employeeToDelete == null) {
                                         System.out.println("Employee not found.");
                                     } else {
+                                        employeeDAO.deleteEmployee(deleteId);
                                         employeeService.deleteEmployee(deleteId);
                                         System.out.println("Employee deleted successfully!");
                                     }
